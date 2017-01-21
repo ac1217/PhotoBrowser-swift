@@ -55,7 +55,7 @@ class PhotoCell: UICollectionViewCell {
     
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        
+        scrollView.clipsToBounds = false
         scrollView.frame = self.contentView.bounds
         scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
@@ -70,6 +70,7 @@ class PhotoCell: UICollectionViewCell {
         
         contentView.addSubview(scrollView)
         scrollView.addSubview(imageView)
+        
         
     }
     

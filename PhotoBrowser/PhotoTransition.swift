@@ -47,7 +47,7 @@ class PhotoTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAni
                 imageView.image = sourceImage
                 imageView.frame = sourceImageView.superview?.convert(sourceImageView.frame, to: toVC.view) ?? CGRect.zero
                 
-                toVC.view.insertSubview(imageView, at: 0)
+                toVC.view.insertSubview(imageView, at: 1)
                 
                 UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.55, initialSpringVelocity: 0.55, options: .curveEaseInOut, animations: {
                     

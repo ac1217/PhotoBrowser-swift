@@ -95,7 +95,13 @@ public class PhotoBrowser: UIViewController {
         collectionView.backgroundColor = UIColor.clear
         return collectionView
     }()
-
+    
+    lazy var backgroundView: UIView = {
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.black
+        return backgroundView
+    }()
+    
     override public func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -199,7 +205,8 @@ extension PhotoBrowser {
     
     func setupUI() {
         
-        view.backgroundColor = UIColor.black
+        view.backgroundColor = UIColor.clear
+        view.addSubview(backgroundView)
         view.addSubview(collectionView)
         view.addSubview(pageLabel)
         view.addSubview(actionBtn)
@@ -225,10 +232,15 @@ extension PhotoBrowser {
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(PhotoBrowser.longPress(_:)))
         view.addGestureRecognizer(longPress)
+        
+        
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(PhotoBrowser.pan(_:)))
+        view.addGestureRecognizer(pan)
     }
     
     func setupLayout() {
         
+        backgroundView.frame = view.bounds
         
         actionBtn.frame.size = CGSize(width: 44, height: 44)
         actionBtn.frame.origin.x = view.bounds.width - actionBtn.frame.width
@@ -243,6 +255,52 @@ extension PhotoBrowser {
 }
 
 extension PhotoBrowser {
+    
+    func pan(_ pan: UIPanGestureRecognizer) {
+        
+        let transition = pan.translation(in: view)
+        
+        let cell = collectionView.visibleCells.last
+        
+        switch pan.state {
+        case .began:
+            break
+        case .ended, .cancelled, .failed, .possible:
+            
+            if transition.y > 30 {
+                
+                dismiss(animated: true, completion: nil)
+                
+            }else {
+                
+                UIView.animate(withDuration: 0.25, animations: {
+                    
+                    self.backgroundView.alpha = 1
+                    cell?.transform = CGAffineTransform.identity
+                })
+                
+            }
+            
+        case .changed:
+            
+            let scale = 1 - transition.y / UIScreen.main.bounds.height
+            
+            var transform = CGAffineTransform(translationX: transition.x, y: transition.y)
+                
+            if transition.y > 0 {
+                transform = transform.concatenating(CGAffineTransform(scaleX: scale, y: scale))
+            }
+            
+            backgroundView.alpha = scale
+            
+            cell?.transform = transform
+
+            
+        }
+        
+        
+    }
+    
     func doubleTap() {
         
         let cell = collectionView.visibleCells.last as? PhotoCell
