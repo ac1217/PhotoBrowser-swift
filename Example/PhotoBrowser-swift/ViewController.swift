@@ -16,9 +16,9 @@ class ViewController: UIViewController {
         Photo(urlString: "http://img2.3lian.com/2014/f4/86/d/134.jpg"),
         Photo(urlString: "http://ww2.sinaimg.cn/crop.0.0.980.300/b70b4830gw1ejuw3tbjtpj20r808c43f.jpg"),
         Photo(urlString: "http://img2.3lian.com/2014/f4/86/d/134.jpg"),
-        Photo(urlString: "http://ww2.sinaimg.cn/crop.0.0.980.300/b70b4830gw1ejuw3tbjtpj20r808c43f.jpg"),
+        Photo(urlString: "https://www.baidu.com/img/baidu_jgylogo3.gif"),
         Photo(urlString: "http://img2.3lian.com/2014/f4/86/d/134.jpg"),
-        Photo(urlString: "http://ww2.sinaimg.cn/crop.0.0.980.300/b70b4830gw1ejuw3tbjtpj20r808c43f.jpg"),
+        Photo(urlString: "http://pic2.cxtuku.com/00/02/31/b945758fd74d.jpg"),
     
     
     ]

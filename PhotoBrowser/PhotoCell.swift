@@ -21,11 +21,13 @@ class PhotoCell: UICollectionViewCell {
                 imageView.image = image
                 layoutImageView()
             }else {
-              
-                imageView.kf.setImage(with: photo?.url, placeholder: nil, progressBlock: { (receivedSize, totalSize) in
+                
+                activityIndicatorView.startAnimating()
+                imageView.kf.setImage(with: photo?.url, placeholder: photo?.placeholderImage, progressBlock: { (receivedSize, totalSize) in
                     
                 }) { (_, _, _, _) in
                     
+                    self.activityIndicatorView.stopAnimating()
                     self.layoutImageView()
                     
                 }
@@ -65,14 +67,22 @@ class PhotoCell: UICollectionViewCell {
         return scrollView
     }()
     
+    lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.center = self.contentView.center
+        return activityIndicatorView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         contentView.addSubview(scrollView)
         scrollView.addSubview(imageView)
-        
+        contentView.addSubview(activityIndicatorView)
         
     }
+    
     
     
     func layoutImageView() {
@@ -87,8 +97,8 @@ class PhotoCell: UICollectionViewCell {
         let width = size.width
         let height = size.height
         
-        if width > imageSize.width {
-            scrollView.maximumZoomScale = width / imageSize.width
+        if width < imageSize.width {
+            scrollView.maximumZoomScale = imageSize.width / width
         }
         
         imageView.frame.size = CGSize(width: width, height: height)

@@ -49,7 +49,7 @@ class PhotoTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAni
                 
                 toVC.view.insertSubview(imageView, at: 1)
                 
-                UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.55, initialSpringVelocity: 0.55, options: .curveEaseInOut, animations: {
+                UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
                     
                     
                     toVC.view.alpha = 1
@@ -88,8 +88,7 @@ class PhotoTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAni
                 
                 containerView.addSubview(imageView)
                 
-                UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.55, initialSpringVelocity: 0.55, options: .curveEaseInOut, animations: {
-                    
+                UIView.animate(withDuration: transitionDuration(using: transitionContext) * 0.5, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
                     
                     fromVC.view.alpha = 0
                     imageView.frame = sourceImageView.superview?.convert(sourceImageView.frame, to: containerView) ?? CGRect.zero
@@ -99,8 +98,8 @@ class PhotoTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAni
                     imageView.removeFromSuperview()
                     
                     transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-                    
                 })
+                
             }else {
                 
                 UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {

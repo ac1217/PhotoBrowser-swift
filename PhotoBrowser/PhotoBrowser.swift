@@ -12,8 +12,26 @@ public class PhotoBrowser: UIViewController {
     
     public var photos: [Photo]
     
-    public var currentIndex: Int = 0
+    public var currentIndex: Int {
+        didSet{
+            
+            pageLabel.text = "\(currentIndex + 1) / \(photos.count)"
+        }
+    }
     
+    public var defaultPlaceholderImage: UIImage? {
+        didSet{
+            
+            guard let defaultPlaceholderImage = defaultPlaceholderImage else {
+                return
+            }
+            
+            photos.forEach { (p) in
+                p.placeholderImage = defaultPlaceholderImage
+            }
+            
+        }
+    }
     
     public init(photos: [Photo], currentIndex: Int, sourceImageViewClosure: ((Int)->(UIImageView))? = nil) {
         
@@ -115,9 +133,7 @@ public class PhotoBrowser: UIViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        collectionView.isHidden = true
-        
-        sourceImageView?.isHidden = true
+        collectionView.isHidden = sourceImageView != nil
         
         isOriginalStatusBarHidden = UIApplication.shared.isStatusBarHidden
         
@@ -140,6 +156,7 @@ public class PhotoBrowser: UIViewController {
         super.viewDidAppear(animated)
         
         collectionView.isHidden = false
+        sourceImageView?.isHidden = true
     }
     
     
@@ -175,7 +192,6 @@ extension PhotoBrowser: UIScrollViewDelegate {
         
         currentIndex = Int((scrollView.contentOffset.x / scrollView.frame.width) + 0.5)
         
-        pageLabel.text = "\(currentIndex + 1) / \(photos.count)"
         
         sourceImageView?.isHidden = true
     }
@@ -211,10 +227,7 @@ extension PhotoBrowser {
         view.addSubview(pageLabel)
         view.addSubview(actionBtn)
         
-        
-            
         collectionView.scrollToItem(at: IndexPath(item: self.currentIndex, section: 0), at: .left, animated: false)
-        
         
     }
     

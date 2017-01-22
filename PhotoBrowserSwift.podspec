@@ -15,8 +15,8 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "PhotoBrowser"
-  s.version      = "0.0.1"
+  s.name         = "PhotoBrowserSwift"
+  s.version      = "0.0.2"
   s.summary      = "swift版KCPhotoBrowser"
 
   # This description is used to generate tags and improve search results.
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/ac1217/PhotoBrowser-swift.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/ac1217/PhotoBrowser-swift.git", :tag => "0.0.2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

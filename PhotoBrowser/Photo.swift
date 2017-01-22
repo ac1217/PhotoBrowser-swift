@@ -10,26 +10,28 @@ import UIKit
 
 public class Photo {
     
-     public var url: URL?
-     public var image: UIImage?
+    public var url: URL?
+    public var image: UIImage?
+    public var placeholderImage: UIImage?
     
     public init() {
         
     }
     
-    public init(url: URL) {
+    public init(url: URL?) {
         
         self.url = url
         
     }
     
-    public init(urlString: String) {
-        
-        self.url = URL(string: urlString)
+    public init(urlString: String?) {
+        if let urlString = urlString {
+            self.url = URL(string: urlString)
+        }
         
     }
     
-    public init(image: UIImage) {
+    public init(image: UIImage?) {
         
         self.image = image
         
