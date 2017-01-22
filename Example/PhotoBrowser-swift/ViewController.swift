@@ -43,7 +43,8 @@ class ViewController: UIViewController {
         let pb = PhotoBrowser(photos: photos, currentIndex: 0) { (index) -> (UIImageView) in
             return self.iv1
         }
-        
+        pb.indicatorStyle = .pageControl
+//        pb.indicatorPosition = .top
 //        let pb = PhotoBrowser(photos: photos, currentIndex: 0)
         
         present(pb, animated: true, completion: nil)

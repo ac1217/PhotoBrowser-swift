@@ -8,6 +8,19 @@
 
 import UIKit
 
+public enum PhotoBrowserIndicatorStyle {
+    
+    case label
+    case pageControl
+    
+}
+
+public enum PhotoBrowserIndicatorPosition {
+    
+    case top
+    case bottom
+}
+
 public class PhotoBrowser: UIViewController {
     
     public var photos: [Photo]
@@ -16,8 +29,12 @@ public class PhotoBrowser: UIViewController {
         didSet{
             
             pageLabel.text = "\(currentIndex + 1) / \(photos.count)"
+            pageControl.currentPage = currentIndex
         }
     }
+    
+    public var indicatorStyle = PhotoBrowserIndicatorStyle.label
+    public var indicatorPosition = PhotoBrowserIndicatorPosition.bottom
     
     public var defaultPlaceholderImage: UIImage? {
         didSet{
@@ -89,6 +106,15 @@ public class PhotoBrowser: UIViewController {
         pageLabel.text = "\(self.currentIndex + 1) / \(self.photos.count)"
 
         return pageLabel
+    }()
+    
+    lazy var pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.pageIndicatorTintColor = UIColor.lightGray
+        pageControl.currentPageIndicatorTintColor = UIColor.white
+        pageControl.hidesForSinglePage = true
+        pageControl.isEnabled = false
+        return pageControl
     }()
     
     lazy var layout: UICollectionViewFlowLayout = {
@@ -225,7 +251,19 @@ extension PhotoBrowser {
         view.addSubview(backgroundView)
         view.addSubview(collectionView)
         view.addSubview(pageLabel)
+        view.addSubview(pageControl)
         view.addSubview(actionBtn)
+        
+        pageControl.numberOfPages = photos.count
+        switch indicatorStyle {
+        case .label:
+            pageControl.isHidden = true
+            pageLabel.isHidden = false
+        case .pageControl:
+            
+            pageControl.isHidden = false
+            pageLabel.isHidden = true
+        }
         
         collectionView.scrollToItem(at: IndexPath(item: self.currentIndex, section: 0), at: .left, animated: false)
         
@@ -259,10 +297,21 @@ extension PhotoBrowser {
         actionBtn.frame.origin.x = view.bounds.width - actionBtn.frame.width
         actionBtn.frame.origin.y = view.bounds.height - actionBtn.frame.height
         
-        pageLabel.frame.size.height = actionBtn.frame.size.height
-        pageLabel.frame.size.width = view.bounds.width
-        pageLabel.frame.origin.y = view.bounds.height - pageLabel.frame.height
+        switch indicatorPosition {
+        case .bottom:
+            
+            pageLabel.frame.size.height = actionBtn.frame.size.height
+            pageLabel.frame.size.width = view.bounds.width
+            pageLabel.frame.origin.y = view.bounds.height - pageLabel.frame.height
+        default:
+            
+            pageLabel.frame.size.height = actionBtn.frame.size.height
+            pageLabel.frame.size.width = view.bounds.width
+//            pageLabel.frame.origin.y = view.bounds.height - pageLabel.frame.height
+        }
         
+        
+        pageControl.frame = pageLabel.frame
     }
     
 }
