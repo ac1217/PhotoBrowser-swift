@@ -51,7 +51,6 @@ class PhotoTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAni
                 
                 UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
                     
-                    
                     toVC.view.alpha = 1
                     imageView.frame = sourceImage.frameWithScreenWidth
                     
@@ -78,24 +77,19 @@ class PhotoTransition: UIPercentDrivenInteractiveTransition, UIViewControllerAni
             
             let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as! PhotoBrowser
             
-            if let sourceImageView = fromVC.sourceImageView, let sourceImage = sourceImageView.image, let displayImageView = fromVC.displayImageView {
+            if let sourceImageView = fromVC.sourceImageView, let displayImageView = fromVC.displayImageView {
                 
-                let imageView = UIImageView()
-                imageView.clipsToBounds = true
-                imageView.contentMode = .scaleAspectFill
-                imageView.image = sourceImage
-                imageView.frame = displayImageView.superview?.convert(displayImageView.frame, to: containerView) ?? CGRect.zero
-                
-                containerView.addSubview(imageView)
+                displayImageView.frame = displayImageView.superview?.convert(displayImageView.frame, to: containerView) ?? CGRect.zero
+                containerView.addSubview(displayImageView)
                 
                 UIView.animate(withDuration: transitionDuration(using: transitionContext) * 0.5, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
                     
                     fromVC.view.alpha = 0
-                    imageView.frame = sourceImageView.superview?.convert(sourceImageView.frame, to: containerView) ?? CGRect.zero
+                    displayImageView.frame = sourceImageView.superview?.convert(sourceImageView.frame, to: containerView) ?? CGRect.zero
                     
                 }, completion: { (_) in
                     
-                    imageView.removeFromSuperview()
+                    displayImageView.removeFromSuperview()
                     
                     transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                 })
